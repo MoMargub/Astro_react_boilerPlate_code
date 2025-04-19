@@ -1,69 +1,54 @@
 #!/bin/bash
 
-# Optional: skip tests
+# Exit on any error
+set -euo pipefail
+
+# Optional: run tests
 # npm test
 
-# 1) Get staged files and filter for formatable file types (excluding package.json and package-lock.json)
-staged_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(js|ts|jsx|tsx|json|css|scss|md|astro|html)$' | grep -vE '(^|/)package(-lock)?\.json$')
+echo "🔍 Starting pre-commit checks..."
 
-echo "Staged files: $staged_files"
+# 1. Get staged files (excluding deleted ones) and filter for formatable types
+staged_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(js|ts|jsx|tsx|json|css|scss|md|astro|html)$' | grep -vE '(^|/)package(-lock)?\.json$' || true)
 
-# 2) Format staged files using Prettier
+echo "📄 Staged files: $staged_files"
+
+# 2. Format with Prettier
 if [ -n "$staged_files" ]; then
-  echo "Formatting staged files..."
+  echo "🎨 Formatting with Prettier..."
   echo "$staged_files" | tr '\n' '\0' | xargs -0 npx prettier --write
-  modified_files=$(git diff --cached --name-only)
-  if [ -n "$modified_files" ]; then
-    echo "$modified_files" | xargs git add
-  else
-    echo "No files were modified by Prettier."
-  fi
+  git add $staged_files
 else
-  echo "No formatable staged files found, skipping Prettier."
+  echo "✨ No formatable files found."
 fi
 
-# 3) NEW: Check for debugger and console statements in staged files
-js_files=$(git diff --cached --name-only | grep -E '\.(js|ts|jsx|tsx)$' || true)
+# 3. Check for console/debugger/alert in JS/TS files
+js_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(js|ts|jsx|tsx)$' || true)
+
 if [ -n "$js_files" ]; then
-  debugger_console_code=$(echo "$js_files" | xargs -I {} grep -nE 'console\.(log|debug|warn|error|info)\(|debugger;|alert\(' {} 2>/dev/null || true)
-  if [ -n "$debugger_console_code" ]; then
-    echo -e "\033[0;31mError: The following files contain debug/log code (console.log, console.debug, console.warn, console.error, console.info, debugger, alert). Please remove before committing:\033[0m"
-    echo "$debugger_console_code"
+  bad_code=$(echo "$js_files" | while IFS= read -r file; do
+    [ -f "$file" ] && grep -nE 'console\.(log|debug|warn|error|info)\(|debugger;|alert\(' "$file"
+  done || true)
+
+  if [ -n "$bad_code" ]; then
+    echo -e "\033[0;31m🚫 Error: Debug/log code found (console.log, debugger, alert). Remove before committing:\033[0m"
+    echo "$bad_code"
     exit 1
   fi
 fi
 
-# 4) Check for merge conflict markers in staged files
-echo "Checking for merge conflict markers..."
-if [ -n "$staged_files_all" ]; then
-  while IFS= read -r file; do
-    grep -En '<<<<<<<|=======|>>>>>>>' "$file" 2>/dev/null | while IFS= read -r line; do
-      echo -e "\033[0;31mError: Merge conflict markers found in staged file:\033[0m"
-      echo "$line"
-      exit 1
-    done
-  done < <(echo "$staged_files_all")
-else
-  echo "No staged files found, skipping merge conflict check."
-fi
+# 4 Check for empty new files
+echo "📏 Checking for empty newly added files..."
+git diff --cached --name-only --diff-filter=A | while IFS= read -r file; do
+  [ -f "$file" ] || continue
+  sha=$(git ls-files -s -- "$file" | awk '{print $2}')
+  [[ -z "$sha" ]] && continue
+  size=$(git cat-file -s "$sha")
+  if [[ "$size" -eq 0 ]]; then
+    echo -e "\033[31m❌ Error: Empty new file staged: '$file'\033[0m"
+    echo "⚠️  Please add content or remove the file before committing."
+    exit 1
+  fi
+done
 
-
-# 5) Check for empty staged files
-set -euo pipefail
-
-
-# 6) Empty‑file guard (portable)
-echo "Checking for empty staged files…"
-git diff --cached --name-only --diff-filter=A \
-  | while IFS= read -r file; do
-      sha=$(git ls-files -s -- "$file" | awk '{print $2}')
-      [[ -z "$sha" ]] && continue
-      size=$(git cat-file -s "$sha")
-      if [[ "$size" -eq 0 ]]; then
-        echo -e "\033[31m❌ Error: New empty file detected in staging: '$file'\033[0m"
-        echo "Please add content or remove the file before committing."
-        exit 1
-      fi
-    done
-
-echo "Pre-commit hook finished."
+echo -e "\033[32m✅ Pre-commit checks passed!\033[0m"

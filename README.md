@@ -138,6 +138,6 @@ In all folders there was a by default I added .git keep file you can remove all 
 
 - Below command you can use to remove all `.gitkeep files`
 
-- ==Use below command in your git bash==
+- Use below command in your git bash
 
 `find . -name ".gitkeep" -type f -delete`
