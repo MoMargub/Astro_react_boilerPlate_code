@@ -9,7 +9,7 @@
     "astro": "astro",
     "format": "prettier --write .",
     "test": "echo \"No tests specified\" && exit 0",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@astrojs/node": "^9.2.0",
@@ -17,6 +17,7 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "astro": "^5.7.4",
+    "husky": "^9.1.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

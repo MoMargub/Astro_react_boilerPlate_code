@@ -1,95 +1,122 @@
-# Astro + React Boilerplate code 
+# Astro + React Boilerplate code
 
 ## Project Structure
 
-This project integrates **React**, **Astro**, for Server-Side Rendering (SSR) and data fetching. Below is the breakdown of the folder structure, designed to be scalable and maintainable.
+This project integrates **React**, **Astro**, for Server-Side Rendering (SSR) and data fetching. Below is the breakdown of the folder structure, designed to be scalable and
 
-## Folder Structure
+## Folder Structure 📂
+
+## 📁 Project Folder Structure
+
+| Folder Path       | Description                                                                  |
+| ----------------- | ---------------------------------------------------------------------------- |
+| `/src/assets`     | Images, fonts, and other static files                                        |
+| `/src/components` | Reusable UI components (React or Astro)                                      |
+| `/src/context`    | Context API logic or Redux state management                                  |
+| `/src/data`       | Static data files or data models used in the application                     |
+| `/src/features`   | Feature-specific modules or business logic units                             |
+| `/src/pages`      | Astro uses **file-based routing** here                                       |
+| `/src/hooks`      | Custom React hooks                                                           |
+| `/src/layouts`    | Structural components like header, footer, sidebar, etc.                     |
+| `/src/lib`        | Shared utilities, external libraries, or wrappers                            |
+| `/src/services`   | API calls and external service integrations (like REST APIs, DB access)      |
+| `/src/styles`     | Global styles, theme files, and component-specific styling (CSS, SCSS, etc.) |
+| `/src/utils`      | Utility functions and helper methods                                         |
 
 ### `/src`
+
 Contains all the source code for your project.
 
 - **`/assets`**  
   Stores static assets like images, fonts, and other non-dynamic resources that don’t need processing by Astro or React.  
-  **Example:**  
+  **Example:**
+
   - Images (`.png`, `.jpg`)
-  - Svgs (`.svg`)  
-  - Fonts  
-  - Icons  
+  - Svgs (`.svg`)
+  - Fonts
+  - Icons
 
 - **`/components`**  
   Reusable **UI components** (both React and Astro). These are elements that can be used across various parts of your application.  
-  **Example:**  
-  - `Button.jsx`  
+  **Example:**
+
+  - `Button.jsx`
   - `Card.astro`
 
 - **`/context`**  
   Contains **Context API** or **Redux** logic for state management.  
-  **Example:**  
-  - `ThemeContext.js`  
+  **Example:**
+
+  - `ThemeContext.js`
   - `AuthContext.js`
 
 - **`/data`**  
   Contains **static data** or **data models** that are shared across the app (like mock data or TypeScript types). This can also include query models for TanStack Query.  
-  **Example:**  
-  - `users.json`  
-  - `dataModels.js`  
+  **Example:**
+
+  - `users.json`
+  - `dataModels.js`
   - `querySchemas.js`
 
 - **`/features`**  
   Feature-specific modules. This folder organizes your app by logical features and contains components, logic, and services related to specific features.  
-  **Example:**  
-  - `/features/user`  
+  **Example:**
+
+  - `/features/user`
   - `/features/dashboard`
 
 - **`/pages`**  
   **Astro** use **page-based routing** to define the structure of your site. Each `.astro` file represents a route in the project. These pages can embed React components for interactivity or dynamic content.  
-  **Example:**  
-  - `index.astro` (Home page route `./home`)  
-  - `about.astro`  (About page route `./about`)
+  **Example:**
+
+  - `index.astro` (Home page route `./home`)
+  - `about.astro` (About page route `./about`)
   - `blog/[slug].astro` (Dynamic route)
 
 - **`/hooks`**  
   **Custom React hooks**. These are reusable hooks that encapsulate logic for fetching, managing state, and interacting with APIs.  
-  **Example:**  
-  - `useQuery.js` (for TanStack Query)  
+  **Example:**
+
+  - `useQuery.js` (for TanStack Query)
   - `useLocalStorage.js`
 
 - **`/layouts`**  
   Contains layout components (e.g., headers, footers, sidebars) that help structure the app’s layout globally. These components are typically used across multiple pages.  
-  **Example:**  
-  - `MainLayout.astro`  
-  - `Header.jsx`  
+  **Example:**
+
+  - `MainLayout.astro`
+  - `Header.jsx`
   - `Footer.jsx`
 
 - **`/lib`**  
   Holds external libraries or utilities, including the configuration and setup for TanStack Query.  
-  **Example:**  
-  - `apiClient.js`  
-  - `tanstackQuery.js` (Configuration of TanStack Query)  
+  **Example:**
+
+  - `apiClient.js`
+  - `tanstackQuery.js` (Configuration of TanStack Query)
   - `analytics.js`
 
 - **`/services`**  
   API calls and external services. This is where all the logic related to data fetching via **TanStack Query** or other APIs goes.  
-  **Example:**  
-  - `api.js`  
-  - `authService.js`  
+  **Example:**
+
+  - `api.js`
+  - `authService.js`
   - `postService.js` (for fetching blog posts)
 
 - **`/styles`**  
   Global and component-specific **styles** for your app, including CSS, SCSS, or styled-components.  
-  **Example:**  
-  - `global.css`  
-  - `Button.module.css`  
+  **Example:**
+
+  - `global.css`
+  - `Button.module.css`
   - `theme.scss`
 
 - **`/utils`**  
   Utility functions and helpers that simplify common tasks.  
-  **Example:**  
-  - `formatDate.js`  
+  **Example:**
+  - `formatDate.js`
   - `capitalize.js`
-
-
 
 ## 🧞 Commands
 
@@ -104,3 +131,13 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 | `npm run format`          | for code formatting via prettier                 |
+
+# <span style="color: red;"> Important Note </span>
+
+In all folders there was a by default I added .git keep file you can remove all of that as per your need and modified the structure.
+
+- Below command you can use to remove all `.gitkeep files`
+
+- ==Use below command in your git bash==
+
+`find . -name ".gitkeep" -type f -delete`
