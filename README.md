@@ -1,34 +1,95 @@
-# Astro Starter Kit: Basics
+# Astro + React Boilerplate code 
 
-```sh
-npm create astro@latest -- --template basics
-```
+## Project Structure
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+This project integrates **React**, **Astro**, for Server-Side Rendering (SSR) and data fetching. Below is the breakdown of the folder structure, designed to be scalable and maintainable.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Folder Structure
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+### `/src`
+Contains all the source code for your project.
 
-## 🚀 Project Structure
+- **`/assets`**  
+  Stores static assets like images, fonts, and other non-dynamic resources that don’t need processing by Astro or React.  
+  **Example:**  
+  - Images (`.png`, `.jpg`)
+  - Svgs (`.svg`)  
+  - Fonts  
+  - Icons  
 
-Inside of your Astro project, you'll see the following folders and files:
+- **`/components`**  
+  Reusable **UI components** (both React and Astro). These are elements that can be used across various parts of your application.  
+  **Example:**  
+  - `Button.jsx`  
+  - `Card.astro`
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- **`/context`**  
+  Contains **Context API** or **Redux** logic for state management.  
+  **Example:**  
+  - `ThemeContext.js`  
+  - `AuthContext.js`
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+- **`/data`**  
+  Contains **static data** or **data models** that are shared across the app (like mock data or TypeScript types). This can also include query models for TanStack Query.  
+  **Example:**  
+  - `users.json`  
+  - `dataModels.js`  
+  - `querySchemas.js`
+
+- **`/features`**  
+  Feature-specific modules. This folder organizes your app by logical features and contains components, logic, and services related to specific features.  
+  **Example:**  
+  - `/features/user`  
+  - `/features/dashboard`
+
+- **`/pages`**  
+  **Astro** use **page-based routing** to define the structure of your site. Each `.astro` file represents a route in the project. These pages can embed React components for interactivity or dynamic content.  
+  **Example:**  
+  - `index.astro` (Home page route `./home`)  
+  - `about.astro`  (About page route `./about`)
+  - `blog/[slug].astro` (Dynamic route)
+
+- **`/hooks`**  
+  **Custom React hooks**. These are reusable hooks that encapsulate logic for fetching, managing state, and interacting with APIs.  
+  **Example:**  
+  - `useQuery.js` (for TanStack Query)  
+  - `useLocalStorage.js`
+
+- **`/layouts`**  
+  Contains layout components (e.g., headers, footers, sidebars) that help structure the app’s layout globally. These components are typically used across multiple pages.  
+  **Example:**  
+  - `MainLayout.astro`  
+  - `Header.jsx`  
+  - `Footer.jsx`
+
+- **`/lib`**  
+  Holds external libraries or utilities, including the configuration and setup for TanStack Query.  
+  **Example:**  
+  - `apiClient.js`  
+  - `tanstackQuery.js` (Configuration of TanStack Query)  
+  - `analytics.js`
+
+- **`/services`**  
+  API calls and external services. This is where all the logic related to data fetching via **TanStack Query** or other APIs goes.  
+  **Example:**  
+  - `api.js`  
+  - `authService.js`  
+  - `postService.js` (for fetching blog posts)
+
+- **`/styles`**  
+  Global and component-specific **styles** for your app, including CSS, SCSS, or styled-components.  
+  **Example:**  
+  - `global.css`  
+  - `Button.module.css`  
+  - `theme.scss`
+
+- **`/utils`**  
+  Utility functions and helpers that simplify common tasks.  
+  **Example:**  
+  - `formatDate.js`  
+  - `capitalize.js`
+
+
 
 ## 🧞 Commands
 
@@ -42,7 +103,4 @@ All commands are run from the root of the project, from a terminal:
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| `npm run format`          | for code formatting via prettier                 |
