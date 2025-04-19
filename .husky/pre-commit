@@ -31,7 +31,7 @@ if [ -n "$js_files" ]; then
   done || true)
 
   if [ -n "$bad_code" ]; then
-    echo -e "\033[0;31m🚫 Error: Debug/log code found (console.log, debugger, alert). Remove before committing:\033[0m"
+    echo -e "\033[0;31m🚫 Error: Debug/log code found (Remove all console, debugger, alert). Remove before committing:\033[0m"
     echo "$bad_code"
     exit 1
   fi
